@@ -1,5 +1,20 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 My Todo List
+  h2 Upcoming
+  - each todo in todos
+    - if (!todo.done)
+      section
+        input(type="checkbox")
+        | #{todo.description}
+      section
+        | #{todo.due.toDateString()}
+  h2 Done
+  - each todo in todos
+    - if (todo.done)
+      section
+        input(type="checkbox", checked="true")
+        del #{todo.description}
+      section
+        | #{todo.due.toDateString()}
