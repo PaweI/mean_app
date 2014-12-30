@@ -3,25 +3,27 @@ extends layout
 block head 
   link(rel='stylesheet', href='/javascripts/vendor/bootstrap-css/css/bootstrap.css')
 
+  script(type='text/javascript', src='/javascripts/controllers/TodoListController.js')
+
 block content
 
-  section.container
+  section.container(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)} )")
     h1 My Todo List
     h2 Upcoming
     - each todo in todos
       - if (!todo.done)
-        section.row
+        section.row(ng-repeat="todo in todos | filter:notDoneFilter")
           section.span9
             label.checkbox
-              input(type="checkbox")
+              input(type="checkbox", ng-model="todo.done")
               | #{todo.description}
           section.span3.text-right
               | #{todo.due.toDateString()}
     h2 Done
     - each todo in todos
       - if (todo.done)
-        section.row
-          input(type="checkbox", checked="true")
+        section.row(ng-repeat="todo in todos | filter:DoneFilter")
+          input(type="checkbox", ng-model="todo.done")
           del #{todo.description}
         section.span3.text-right
           | #{todo.due.toDateString()}
